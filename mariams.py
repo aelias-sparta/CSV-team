@@ -1,12 +1,10 @@
 import boto3
 from pprint import pprint as pp
 import csv
-
 import pandas
 import pandas as pd
 import pymongo
 import io
-
 
 # Connect to S3
 s3_client = boto3.client('s3')               # Low-level functional API (max 1000 obj)
@@ -40,6 +38,13 @@ for obj in bucket.objects.all():                                       # Loop th
 # Combine dataframes
 academy_df = pandas.concat(academy_data, join='outer', ignore_index=True)
 talent_df = pandas.concat(talent_data, join='outer', ignore_index=True)
+
+# A Function to save dataframes as csv
+def save_files(dataframe1 = academy_df, dataframe2 = talent_df):
+    dataframe1.to_csv('academy_data.csv')
+    dataframe2.to_csv('talent_data.csv')
+
+
 
 
 
