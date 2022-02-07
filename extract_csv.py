@@ -24,6 +24,13 @@ class ExtractCSV:
                 self.csv_file_names.append(file)
                 csv_file = self.s3_client.get_object(Bucket=self.bucket_name, Key=file)
                 df1 = pd.read_csv(csv_file['Body'])
+
+                if self.prefix == 'Academy':
+                    start_date = file[-14:-4]
+                    course_name = file.split('/')[1][:-15]
+                    df1.insert(2, 'start_date', start_date, True)
+                    df1.insert(2, 'course_name', course_name, True)
+
                 table.append(df1)
 
         df = pd.concat(table, axis=0, ignore_index=True)
