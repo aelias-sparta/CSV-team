@@ -11,7 +11,6 @@ class TransformTalent:
 
     def clean_id(self):
         self.df = self.df.drop(columns='id')
-        self.df.index.name = 'id'
 
     def clean_dob(self):
         self.df['dob'] = pd.to_datetime(self.df['dob'], dayfirst=True)
