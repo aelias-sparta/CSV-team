@@ -10,6 +10,7 @@ class ExtractCSV:
         self.s3_client = boto3.client("s3")
         self.s3_resource = boto3.resource("s3")
 
+        self.csv_file_names = []
         self.df = self.extract()
 
     def extract(self):
@@ -20,6 +21,7 @@ class ExtractCSV:
 
         for file in files:
             if '.csv' in file and self.prefix in file:
+                self.csv_file_names.append(file)
                 csv_file = self.s3_client.get_object(Bucket=self.bucket_name, Key=file)
                 df1 = pd.read_csv(csv_file['Body'])
                 table.append(df1)
